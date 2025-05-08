@@ -1,0 +1,1352 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sistema de Programación Inteligente de Eventos (SPIE) </title>
+  <link rel="icon" href="/Users/marianaaleal/Desktop/TEC 2025/_Planeación estratégica basada en analítica prescriptiva /spie2.png" type="image/png">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --color-principal: #1a3e72; /* Azul del Tec */
+      --color-secundario: #e6f0ff;
+      --color-tec: #004b87; /* Azul más oscuro del Tec */
+      --color-accent: #e83d3d; /* Rojo para acentos */
+      --color-fondo: #f8f9fa;
+      --color-texto: #333;
+      --color-texto-claro: #666;
+      --sombra: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --sombra-hover: 0 12px 35px rgba(0, 0, 0, 0.15);
+      --borde-radio: 12px;
+      --transicion: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--color-principal) 0%, var(--color-tec) 100%);
+      color: white;
+      padding: 2rem 0;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+
+    .logo-tec {
+      height: 60px;
+      margin-right: 15px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    .header p {
+      margin: 0.5rem 0 0;
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 700px;
+    }
+
+    .mundial-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      padding: 0.8rem 1.8rem;
+      background-color: white;
+      color: var(--color-tec);
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transicion);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .mundial-link:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      background-color: var(--color-secundario);
+    }
+
+    .mundial-link i {
+      margin-left: 8px;
+    }
+
+    .contenedor {
+      max-width: 900px;
+      margin: -40px auto 60px;
+      background: #fff;
+      padding: 40px;
+      border-radius: var(--borde-radio);
+      box-shadow: var(--sombra);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tabs-container {
+      margin-bottom: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--color-secundario);
+      border-radius: var(--borde-radio);
+      overflow: hidden;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 15px;
+      text-align: center;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transicion);
+      border-bottom: 3px solid transparent;
+      color: var(--color-texto-claro);
+    }
+
+    .tab.active {
+      background-color: white;
+      color: var(--color-principal);
+      border-bottom: 3px solid var(--color-principal);
+    }
+
+    .tab:hover:not(.active) {
+      background-color: rgba(255, 255, 255, 0.5);
+      color: var(--color-principal);
+    }
+
+    .tab i {
+      margin-right: 8px;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .filtros-container {
+      background: var(--color-secundario);
+      padding: 25px;
+      border-radius: var(--borde-radio);
+      margin-bottom: 30px;
+    }
+
+    .filtros-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .filtros-header h2 {
+      margin: 0;
+      color: var(--color-tec);
+      font-size: 1.5rem;
+    }
+
+    .btn-limpiar {
+      background: none;
+      border: none;
+      color: var(--color-accent);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: var(--transicion);
+    }
+
+    .btn-limpiar:hover {
+      background: rgba(232, 61, 61, 0.1);
+    }
+
+    .btn-limpiar i {
+      margin-right: 6px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: var(--color-tec);
+    }
+
+    select {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: var(--borde-radio);
+      border: 1px solid #ddd;
+      transition: var(--transicion);
+      background-color: white;
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 18px;
+    }
+
+    select:focus, input:focus, .radio-option:focus-within {
+      border-color: var(--color-principal);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(26, 62, 114, 0.2);
+    }
+
+    input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 14px;
+      font-size: 1rem;
+      border-radius: var(--borde-radio);
+      border: 1px solid #ddd;
+      transition: var(--transicion);
+      background-color: white;
+      box-sizing: border-box;
+    }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .radio-option {
+      flex: 1;
+      min-width: 120px;
+      position: relative;
+      transition: var(--transicion);
+      border: 2px solid #ddd;
+      border-radius: var(--borde-radio);
+      overflow: hidden;
+    }
+
+    .radio-option:has(input:checked) {
+      border-color: var(--color-principal);
+      background-color: var(--color-secundario);
+    }
+
+    .radio-option input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      height: 0;
+      width: 0;
+    }
+
+    .radio-option label {
+      display: block;
+      padding: 14px;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .radio-option:hover {
+      border-color: var(--color-principal);
+    }
+
+    .question-card {
+      background: white;
+      border-radius: var(--borde-radio);
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border-left: 4px solid var(--color-principal);
+      transition: var(--transicion);
+    }
+
+    .question-card:hover {
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .question-card h3 {
+      margin-top: 0;
+      color: var(--color-principal);
+      font-size: 1.2rem;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transicion);
+      border: none;
+      font-size: 1rem;
+    }
+
+    .btn-next {
+      background: var(--color-principal);
+      color: white;
+      box-shadow: 0 4px 15px rgba(0, 75, 135, 0.2);
+    }
+
+    .btn-next:hover {
+      background: var(--color-tec);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0, 75, 135, 0.3);
+    }
+
+    .btn-prev {
+      background: white;
+      color: var(--color-principal);
+      border: 1px solid var(--color-principal);
+    }
+
+    .btn-prev:hover {
+      background: var(--color-secundario);
+      transform: translateY(-2px);
+    }
+    
+    .btn-submit {
+      background: var(--color-accent);
+      color: white;
+      box-shadow: 0 4px 15px rgba(232, 61, 61, 0.2);
+    }
+    
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(232, 61, 61, 0.3);
+    }
+
+    .progress-container {
+      margin-bottom: 20px;
+    }
+
+    .progress-bar-container {
+      height: 8px;
+      background-color: #eee;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-principal), var(--color-accent));
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 0.85rem;
+      color: var(--color-texto-claro);
+    }
+
+    .recomendacion {
+      margin-top: 30px;
+      padding: 30px;
+      background-color: white;
+      border-radius: var(--borde-radio);
+      box-shadow: var(--sombra);
+      border-top: 4px solid var(--color-principal);
+      transition: var(--transicion);
+    }
+
+    .recomendacion:hover {
+      box-shadow: var(--sombra-hover);
+      transform: translateY(-2px);
+    }
+
+    .recomendacion h2 {
+      color: var(--color-principal);
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .recomendacion h2 i {
+      margin-right: 12px;
+      color: var(--color-accent);
+    }
+
+    .detalles-evento {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .detalle-item {
+      margin-bottom: 15px;
+    }
+
+    .detalle-item strong {
+      color: var(--color-tec);
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.95rem;
+    }
+
+    .detalle-item span {
+      display: block;
+      background: var(--color-secundario);
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .galeria {
+      margin-top: 30px;
+    }
+
+    .galeria h3 {
+      color: var(--color-principal);
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .imagen-evento {
+      height: 150px;
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      cursor: pointer;
+      transition: var(--transicion);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .imagen-evento:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .imagen-evento img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .imagen-evento:hover img {
+      transform: scale(1.05);
+    }
+
+    .imagen-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      color: white;
+      padding: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .imagen-evento:hover .imagen-overlay {
+      opacity: 1;
+    }
+
+    .imagen-overlay span {
+      font-size: 0.85rem;
+      display: block;
+    }
+
+    .no-evento {
+      padding: 20px;
+      background: #fff8f8;
+      border-left: 4px solid var(--color-accent);
+      border-radius: var(--borde-radio);
+      color: var(--color-texto);
+    }
+
+    .no-evento strong {
+      color: var(--color-accent);
+    }
+
+    .footer {
+      background: var(--color-principal);
+      color: white;
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.9rem;
+    }
+
+    .footer p {
+      margin: 0;
+      opacity: 0.8;
+    }
+
+    .footer a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .recommendation-card {
+      background: white;
+      border-radius: var(--borde-radio);
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      border-left: 4px solid var(--color-principal);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .recommendation-card:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, transparent 50%, rgba(26, 62, 114, 0.03) 50%);
+      z-index: 0;
+    }
+
+    .recommendation-match {
+      display: inline-block;
+      background: var(--color-secundario);
+      color: var(--color-principal);
+      padding: 5px 12px;
+      border-radius: 50px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .recommendation-match i {
+      margin-right: 5px;
+    }
+
+    .recommendation-title {
+      font-size: 1.4rem;
+      margin: 0 0 15px 0;
+      color: var(--color-principal);
+    }
+
+    .recommendation-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .recommendation-detail {
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .recommendation-detail i {
+      color: var(--color-accent);
+      margin-right: 10px;
+      margin-top: 3px;
+    }
+
+    .recommendation-detail-content span {
+      display: block;
+    }
+
+    .recommendation-detail-content .label {
+      font-size: 0.85rem;
+      color: var(--color-texto-claro);
+      margin-bottom: 4px;
+    }
+
+    .recommendation-detail-content .value {
+      font-weight: 600;
+      color: var(--color-texto);
+    }
+
+    .recommendation-description {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+
+    .recommendation-cta {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: var(--color-principal);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transicion);
+    }
+
+    .recommendation-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .recommendation-cta i {
+      margin-left: 8px;
+    }
+
+    .restart-btn {
+      display: block;
+      margin: 20px auto;
+      background: none;
+      border: 2px solid var(--color-principal);
+      color: var(--color-principal);
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transicion);
+    }
+
+    .restart-btn:hover {
+      background: var(--color-secundario);
+    }
+
+    .restart-btn i {
+      margin-right: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .contenedor {
+        padding: 25px;
+        margin: -20px auto 40px;
+      }
+      
+      .detalles-evento, .recommendation-details {
+        grid-template-columns: 1fr;
+      }
+      
+      .galeria-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .radio-group {
+        flex-direction: column;
+      }
+
+      .radio-option {
+        min-width: 100%;
+      }
+
+      .btn-container {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 1.5rem 0;
+      }
+      
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .header p {
+        font-size: 1rem;
+      }
+      
+      .contenedor {
+        padding: 20px;
+        margin: -15px auto 30px;
+      }
+      
+      .filtros-container {
+        padding: 20px;
+      }
+      
+      .recomendacion {
+        padding: 20px;
+      }
+
+      .tab {
+        padding: 10px 5px;
+        font-size: 0.9rem;
+      }
+
+      .tab i {
+        margin-right: 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header-content">
+      <div class="logo-container">
+        <img src="/Users/marianaaleal/Desktop/TEC 2025/_Planeación estratégica basada en analítica prescriptiva /Logo_del_ITESM.svg" alt="Logo Tec de Monterrey" class="logo-tec">
+      </div>
+      <h1>Sistema de Programación Inteligente de Eventos (SPIE)</h1>
+      <p>¿Quieres organizar un evento o asistir a uno durante el Mundial de la FIFA 2026 en México?
+        Descubre las mejores oportunidades, preparativos y experiencias para vivir al máximo esta gran fiesta del fútbol.</p>
+      
+
+        <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" class="mundial-link" target="_blank">
+        Sitio Oficial Mundial 2026 <i class="fas fa-external-link-alt"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="contenedor">
+    <div class="tabs-container">
+      <div class="tabs">
+        <div class="tab" data-tab="filtros">
+          <i class="fas fa-filter"></i> Quiero organizar un evento
+        </div>
+        <div class="tab active" data-tab="encuesta">
+          <i class="fas fa-clipboard-list"></i> Quiero asistir a un evento
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenido de Filtros -->
+    <div class="tab-content" id="filtros-content">
+      <div class="filtros-container">
+        <div class="filtros-header">
+          <h2><i class="fas fa-filter"></i> Filtros de Búsqueda</h2>
+          <button class="btn-limpiar" id="btnLimpiar">
+            <i class="fas fa-times"></i> Limpiar Filtros
+          </button>
+        </div>
+        
+        <div class="form-group">
+          <label for="municipio"><i class="fas fa-map-marker-alt"></i> Municipio:</label>
+          <select id="municipio">
+            <option value="">-- Selecciona un municipio --</option>
+            <option value="Galeana">Galeana</option>
+            <option value="General Terán">General Terán</option>
+            <option value="Juárez">Juárez</option>
+            <option value="Linares">Linares</option>
+            <option value="Monterrey">Monterrey</option>
+            <option value="Santiago">Santiago</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="categoria"><i class="fas fa-tags"></i> Tipo de Evento:</label>
+          <select id="categoria" disabled>
+            <option value="">-- Selecciona el tipo de evento --</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="mes"><i class="far fa-calendar-alt"></i> Mes:</label>
+          <select id="mes" disabled>
+            <option value="">-- Selecciona un mes --</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="recomendacion" id="recomendacion">
+        <h2><i class="fas fa-info-circle"></i> Información del Evento</h2>
+        <p>Selecciona los filtros para obtener recomendaciones de eventos en Nuevo León relacionados con el Mundial 2026.</p>
+      </div>
+    </div>
+
+    <!-- Contenido de Encuesta -->
+    <div class="tab-content active" id="encuesta-content">
+      <div class="progress-container">
+        <div class="progress-bar-container">
+          <div class="progress-bar" id="progress-bar"></div>
+        </div>
+        <div class="progress-text">
+          <span id="current-question">Pregunta 1 de 5</span>
+          <span id="progress-percentage">20%</span>
+        </div>
+      </div>
+
+      <!-- Formulario de Encuesta -->
+      <div id="encuesta-form">
+        <!-- Pregunta 1 -->
+        <div class="question-card" id="question-1">
+          <h3><i class="fas fa-users"></i> ¿Con quién planeas asistir al evento?</h3>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="grupo-familia" name="grupo" value="familia">
+              <label for="grupo-familia">Familia</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="grupo-amigos" name="grupo" value="amigos">
+              <label for="grupo-amigos">Amigos</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="grupo-pareja" name="grupo" value="pareja">
+              <label for="grupo-pareja">Pareja</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="grupo-solo" name="grupo" value="solo">
+              <label for="grupo-solo">Solo</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div class="question-card hidden" id="question-2">
+          <h3><i class="fas fa-futbol"></i> ¿Qué tipo de actividades prefieres?</h3>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="tipo-deportes" name="tipo" value="deportes">
+              <label for="tipo-deportes">Deportes/Fútbol</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="tipo-cultura" name="tipo" value="cultura">
+              <label for="tipo-cultura">Culturales</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="tipo-academico" name="tipo" value="academico">
+              <label for="tipo-academico">Académicos</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="tipo-ferias" name="tipo" value="ferias">
+              <label for="tipo-ferias">Ferias/Expos</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div class="question-card hidden" id="question-3">
+          <h3><i class="fas fa-money-bill-wave"></i> ¿Cuál es tu presupuesto aproximado por persona?</h3>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="presupuesto-bajo" name="presupuesto" value="bajo">
+              <label for="presupuesto-bajo">Menos de $500</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="presupuesto-medio" name="presupuesto" value="medio">
+              <label for="presupuesto-medio">$500 - $1,500</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="presupuesto-alto" name="presupuesto" value="alto">
+              <label for="presupuesto-alto">$1,500 - $3,000</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="presupuesto-premium" name="presupuesto" value="premium">
+              <label for="presupuesto-premium">Más de $3,000</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pregunta 4 -->
+        <div class="question-card hidden" id="question-4">
+          <h3><i class="fas fa-calendar-alt"></i> ¿En qué temporada prefieres asistir?</h3>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="temporada-primavera" name="temporada" value="primavera">
+              <label for="temporada-primavera">Primavera (Mar-May)</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="temporada-verano" name="temporada" value="verano">
+              <label for="temporada-verano">Verano (Jun-Ago)</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="temporada-otono" name="temporada" value="otono">
+              <label for="temporada-otono">Otoño (Sep-Nov)</label>
+            </div
+            ><div class="radio-option">
+                <input type="radio" id="temporada-invierno" name="temporada" value="invierno">
+                <label for="temporada-invierno">Invierno (Dic-Feb)</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="question-card hidden" id="question-5">
+            <h3><i class="fas fa-map-pin"></i> ¿Qué tan lejos estás dispuesto a viajar desde Monterrey?</h3>
+            <div class="radio-group">
+              <div class="radio-option">
+                <input type="radio" id="distancia-cerca" name="distancia" value="cerca">
+                <label for="distancia-cerca">En Monterrey</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="distancia-media" name="distancia" value="media">
+                <label for="distancia-media">Hasta 1 hora</label>
+              </div>
+              <div class="radio-option">
+                <input type="radio" id="distancia-lejos" name="distancia" value="lejos">
+                <label for="distancia-lejos">Más de 1 hora</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="btn-container">
+            <button class="btn btn-prev" id="btn-prev" disabled>
+              <i class="fas fa-arrow-left"></i> Anterior
+            </button>
+            <button class="btn btn-next" id="btn-next">
+              Siguiente <i class="fas fa-arrow-right"></i>
+            </button>
+            <button class="btn btn-submit hidden" id="btn-submit">
+              <i class="fas fa-check-circle"></i> Obtener Recomendación
+            </button>
+          </div>
+        </div>
+  
+        <div id="recomendacion-encuesta" class="hidden">
+          <h2><i class="fas fa-lightbulb"></i> Tu Recomendación de Evento</h2>
+          <div id="evento-recomendado">
+            <div class="no-evento">
+              <strong>¡Gracias por completar la encuesta!</strong> Estamos analizando tus respuestas para ofrecerte la mejor recomendación.
+            </div>
+          </div>
+          <button class="restart-btn" id="restart-encuesta">
+            <i class="fas fa-undo"></i> Reiniciar Encuesta
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+        <p>©️Realizado por Equipo Alpha | Planeación estratégica basada en analítica prescriptiva (Gpo 501) </p>
+        <p>Todos los derechos reservados | 2025 Tecnológico de Monterrey. Proyecto desarrollado para el Mundial FIFA 2026.</p>
+        <p><a href="https://tec.mx" target="_blank">Visita el sitio del Tec de Monterrey</a> | <a href="https://www.fifa.com/fifaplus/en/tournaments/mens/worldcup/canadamexicousa2026" target="_blank">Sitio Oficial Mundial 2026</a></p>
+      </div>
+  
+    <script>
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+  
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const tabId = tab.getAttribute('data-tab');
+  
+          tabs.forEach(t => t.classList.remove('active'));
+          tabContents.forEach(content => content.classList.remove('active'));
+  
+          tab.classList.add('active');
+          document.getElementById(tabId + '-content').classList.add('active');
+        });
+      });
+  
+      // Filtros functionality (basic example)
+      document.getElementById('municipio').addEventListener('change', function() {
+        const municipioSeleccionado = this.value;
+        const categoriaSelect = document.getElementById('categoria');
+        const mesSelect = document.getElementById('mes');
+        const recomendacionDiv = document.getElementById('recomendacion');
+  
+        categoriaSelect.disabled = municipioSeleccionado === '';
+        mesSelect.disabled = municipioSeleccionado === '';
+        categoriaSelect.innerHTML = '<option value="">-- Selecciona el tipo de evento --</option>';
+        mesSelect.innerHTML = '<option value="">-- Selecciona un mes --</option>';
+        recomendacionDiv.innerHTML = '<h2><i class="fas fa-info-circle"></i> Información del Evento</h2><p>Selecciona los filtros para obtener recomendaciones de eventos en Nuevo León relacionados con el Mundial 2026.</p>';
+  
+        if (municipioSeleccionado) {
+          // Simulando carga de categorías y meses basados en el municipio
+          const categoriasDisponibles = ['Fan Fest', 'Eventos Culturales', 'Actividades Deportivas', 'Gastronomía'];
+          const mesesDisponibles = ['Junio 2025', 'Julio 2025', 'Agosto 2025', 'Septiembre 2025'];
+  
+          categoriasDisponibles.forEach(cat => {
+            const option = document.createElement('option');
+            option.value = cat.toLowerCase().replace(' ', '-');
+            option.textContent = cat;
+            categoriaSelect.appendChild(option);
+          });
+  
+          mesesDisponibles.forEach(mes => {
+            const option = document.createElement('option');
+            option.value = mes.toLowerCase().replace(' ', '-');
+            option.textContent = mes;
+            mesSelect.appendChild(option);
+          });
+  
+          // Aquí se podría hacer una llamada a una API para obtener eventos reales
+          recomendacionDiv.innerHTML = `
+            <h2><i class="fas fa-map-marker-alt"></i> Eventos en ${municipioSeleccionado}</h2>
+            <p>Próximamente mostraremos los eventos filtrados para el municipio de ${municipioSeleccionado}.</p>
+          `;
+        }
+      });
+  
+      document.getElementById('btnLimpiar').addEventListener('click', function() {
+        document.getElementById('municipio').value = '';
+        document.getElementById('categoria').value = '';
+        document.getElementById('categoria').disabled = true;
+        document.getElementById('mes').value = '';
+        document.getElementById('mes').disabled = true;
+        document.getElementById('recomendacion').innerHTML = '<h2><i class="fas fa-info-circle"></i> Información del Evento</h2><p>Selecciona los filtros para obtener recomendaciones de eventos en Nuevo León relacionados con el Mundial 2026.</p>';
+      });
+  
+      // Encuesta functionality
+      const questions = document.querySelectorAll('.question-card');
+      const prevButton = document.getElementById('btn-prev');
+      const nextButton = document.getElementById('btn-next');
+      const submitButton = document.getElementById('btn-submit');
+      const progressBar = document.getElementById('progress-bar');
+      const progressTextCurrent = document.getElementById('current-question');
+      const progressTextPercentage = document.getElementById('progress-percentage');
+      const encuestaForm = document.getElementById('encuesta-form');
+      const recomendacionEncuestaDiv = document.getElementById('recomendacion-encuesta');
+      const eventoRecomendadoDiv = document.getElementById('evento-recomendado');
+      const restartEncuestaButton = document.getElementById('restart-encuesta');
+  
+      let currentQuestion = 0;
+  
+      function showQuestion(index) {
+        questions.forEach((question, i) => {
+          question.classList.toggle('hidden', i !== index);
+        });
+  
+        const percentage = ((index + 1) / questions.length) * 100;
+        progressBar.style.width = `${percentage}%`;
+        progressTextCurrent.textContent = `Pregunta ${index + 1} de ${questions.length}`;
+        progressTextPercentage.textContent = `${Math.round(percentage)}%`;
+  
+        prevButton.disabled = index === 0;
+        nextButton.classList.toggle('hidden', index === questions.length - 1);
+        submitButton.classList.toggle('hidden', index !== questions.length - 1);
+      }
+  
+      function nextQuestion() {
+        if (currentQuestion < questions.length - 1) {
+          currentQuestion++;
+          showQuestion(currentQuestion);
+        }
+      }
+  
+      function prevQuestion() {
+        if (currentQuestion > 0) {
+          currentQuestion--;
+          showQuestion(currentQuestion);
+        }
+      }
+  
+      function getSurveyResponses() {
+        const responses = {};
+        const grupos = document.querySelector('input[name="grupo"]:checked')?.value;
+        const tipos = document.querySelector('input[name="tipo"]:checked')?.value;
+        const presupuestos = document.querySelector('input[name="presupuesto"]:checked')?.value;
+        const temporadas = document.querySelector('input[name="temporada"]:checked')?.value;
+        const distancias = document.querySelector('input[name="distancia"]:checked')?.value;
+  
+        if (grupos) responses.grupo = grupos;
+        if (tipos) responses.tipo = tipos;
+        if (presupuestos) responses.presupuesto = presupuestos;
+        if (temporadas) responses.temporada = temporadas;
+        if (distancias) responses.distancia = distancias;
+  
+        return responses;
+      }
+  
+      function handleSubmit() {
+        const respuestas = getSurveyResponses();
+        console.log('Respuestas de la encuesta:', respuestas);
+  
+        // Aquí se simularía la lógica para recomendar un evento basado en las respuestas
+        let recomendacionTexto = '';
+        if (respuestas.tipo === 'deportes' && respuestas.distancia === 'cerca') {
+          recomendacionTexto = `
+            <div class="recommendation-card">
+              <span class="recommendation-match"><i class="fas fa-futbol"></i> ¡Ideal para ti!</span>
+              <h3 class="recommendation-title">Fan Fest Oficial del Mundial 2026 en Monterrey</h3>
+              <div class="recommendation-details">
+                <div class="recommendation-detail">
+                  <i class="fas fa-calendar-alt"></i>
+                  <div class="recommendation-detail-content">
+                    <span class="label">Fecha</span>
+                    <span class="value">Junio/Julio 2026 (Fechas por confirmar)</span>
+                  </div>
+                </div>
+                <div class="recommendation-detail">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="recommendation-detail-content">
+                    <span class="label">Ubicación</span>
+                    <span class="value">Monterrey, Nuevo León</span>
+                  </div>
+                </div>
+                <div class="recommendation-detail">
+                  <i class="fas fa-ticket-alt"></i>
+                  <div class="recommendation-detail-content">
+                    <span class="label">Presupuesto</span>
+                    <span class="value">Gratuito - Bajo</span>
+                  </div>
+                </div>
+              </div>
+              <p class="recommendation-description">Disfruta de la emoción del Mundial en vivo en el Fan Fest oficial. Pantallas gigantes, música, actividades y ambiente familiar.</p>
+              <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+            </div>
+          `;
+        } else if (respuestas.tipo === 'cultura' && respuestas.temporada === 'primavera') {
+          recomendacionTexto = `
+            <div class="recommendation-card">
+              <span class="recommendation-match"><i class="fas fa-palette"></i> ¡Te encantará!</span>
+              <h3 class="recommendation-title">Festival Cultural de Primavera en Santiago</h3>
+              <div class="recommendation-details">
+                <div class="recommendation-detail">
+                  <i class="fas fa-calendar-alt"></i>
+                  <div class="recommendation-detail-content">
+                    <span class="label">Fecha</span>
+                    <span class="value">Mayo 2026 (Fechas por confirmar)</span>
+                  </div>
+                </div>
+                <div class="recommendation-detail">
+                  <i class="fas fa-map-marker-alt"></i>
+                  <div class="recommendation-detail-content">
+                    <span class="label">Ubicación</span>
+                    <span class="value">Santiago, Nuevo León</span>
+                  </div>
+                </div>
+                <div class="recommendation-detail">
+                  <i class="fas fa-dollar-sign"></i>
+                  <div class="recommendation-detail-content">
+                    <span class="label">Presupuesto</span>
+                    <span class="value">Bajo - Medio</span>
+                  </div>
+                </div>
+              </div>
+              <p class="recommendation-description">Explora la riqueza cultural de la región con exposiciones de arte, música en vivo y muestras gastronómicas en el pintoresco pueblo de Santiago.</p>
+              <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+            </div>
+          `;
+        }  else if (respuestas.tipo === 'academico' && respuestas.temporada === 'otono') {
+  recomendacionTexto = `
+    <div class="recommendation-card">
+      <span class="recommendation-match"><i class="fas fa-graduation-cap"></i> ¡Aprende algo nuevo!</span>
+      <h3 class="recommendation-title">Congreso Académico Internacional en Monterrey</h3>
+      <div class="recommendation-details">
+        <div class="recommendation-detail">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Fecha</span>
+            <span class="value">Octubre 2026</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Ubicación</span>
+            <span class="value">Monterrey, Nuevo León</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-dollar-sign"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Presupuesto</span>
+            <span class="value">Medio - Alto</span>
+          </div>
+        </div>
+      </div>
+      <p class="recommendation-description">Participa en conferencias y talleres con expertos internacionales en diversas áreas académicas.</p>
+      <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+    </div>
+  `;
+ } else if (respuestas.tipo === 'academico' && respuestas.temporada === 'otono') {
+  recomendacionTexto = `
+    <div class="recommendation-card">
+      <span class="recommendation-match"><i class="fas fa-graduation-cap"></i> ¡Aprende algo nuevo!</span>
+      <h3 class="recommendation-title">Congreso Académico Internacional en Monterrey</h3>
+      <div class="recommendation-details">
+        <div class="recommendation-detail">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Fecha</span>
+            <span class="value">Octubre 2026</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Ubicación</span>
+            <span class="value">Monterrey, Nuevo León</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-dollar-sign"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Presupuesto</span>
+            <span class="value">Medio - Alto</span>
+          </div>
+        </div>
+      </div>
+      <p class="recommendation-description">Participa en conferencias y talleres con expertos internacionales en diversas áreas académicas.</p>
+      <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+    </div>
+  `;
+}  else if (respuestas.tipo === 'academico' && respuestas.temporada === 'otono') {
+  recomendacionTexto = `
+    <div class="recommendation-card">
+      <span class="recommendation-match"><i class="fas fa-graduation-cap"></i> ¡Aprende algo nuevo!</span>
+      <h3 class="recommendation-title">Congreso Académico Internacional en Monterrey</h3>
+      <div class="recommendation-details">
+        <div class="recommendation-detail">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Fecha</span>
+            <span class="value">Octubre 2026</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Ubicación</span>
+            <span class="value">Monterrey, Nuevo León</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-dollar-sign"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Presupuesto</span>
+            <span class="value">Medio - Alto</span>
+          </div>
+        </div>
+      </div>
+      <p class="recommendation-description">Participa en conferencias y talleres con expertos internacionales en diversas áreas académicas.</p>
+      <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+    </div>
+  `;
+} else if (respuestas.tipo === 'cultura' && respuestas.municipio === 'monterrey') {
+  recomendacionTexto = `
+    <div class="recommendation-card">
+      <span class="recommendation-match"><i class="fas fa-theater-masks"></i> ¡Imperdible!</span>
+      <h3 class="recommendation-title">Musical "Mean Girls"</h3>
+      <div class="recommendation-details">
+        <div class="recommendation-detail">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Fecha</span>
+            <span class="value">23 enero 2025</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Ubicación</span>
+            <span class="value">Showcenter Complex, Monterrey</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-users"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Capacidad</span>
+            <span class="value">2,700 personas</span>
+          </div>
+        </div>
+      </div>
+      <p class="recommendation-description">Un espectáculo lleno de música, drama y comedia basado en la famosa película.</p>
+      <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+    </div>
+  `;
+} else if (respuestas.tipo === 'ferias' && respuestas.municipio === 'galeana') {
+  recomendacionTexto = `
+    <div class="recommendation-card">
+      <span class="recommendation-match"><i class="fas fa-star"></i> ¡Recomendado!</span>
+      <h3 class="recommendation-title">Feria de la Papa y de la Manzana</h3>
+      <div class="recommendation-details">
+        <div class="recommendation-detail">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Fecha</span>
+            <span class="value">15 Septiembre 2026</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-map-marker-alt"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Ubicación</span>
+            <span class="value">Galeana, Galeana</span>
+          </div>
+        </div>
+        <div class="recommendation-detail">
+          <i class="fas fa-users"></i>
+          <div class="recommendation-detail-content">
+            <span class="label">Capacidad</span>
+            <span class="value">100,000 personas</span>
+          </div>
+        </div>
+      </div>
+      <p class="recommendation-description">Un evento destacado en la región para que disfrutes al máximo.</p>
+      <a href="#" class="recommendation-cta"><i class="fas fa-info-circle"></i> Más Detalles</a>
+    </div>
+  `;
+} 
+        else {
+          recomendacionTexto = `
+            <div class="no-evento">
+              <strong>¡Gracias!</strong> Basándonos en tus respuestas, te sugerimos mantenerte atento a los próximos eventos relacionados con el Mundial 2026 en Nuevo León. ¡Seguro encontrarás algo que te interese!
+            </div>
+          `;
+        }
+  
+        eventoRecomendadoDiv.innerHTML = recomendacionTexto;
+        encuestaForm.classList.add('hidden');
+        recomendacionEncuestaDiv.classList.remove('hidden');
+      }
+  
+      function restartEncuesta() {
+        currentQuestion = 0;
+        showQuestion(0);
+        encuestaForm.classList.remove('hidden');
+        recomendacionEncuestaDiv.classList.add('hidden');
+        // Deseleccionar todos los radios
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+          radio.checked = false;
+        });
+      }
+  
+      nextButton.addEventListener('click', nextQuestion);
+      prevButton.addEventListener('click', prevQuestion);
+      submitButton.addEventListener('click', handleSubmit);
+      restartEncuestaButton.addEventListener('click', restartEncuesta);
+  
+      showQuestion(currentQuestion); // Show the first question on load
+    </script>
+  </body>
+  </html>
